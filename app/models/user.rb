@@ -17,6 +17,13 @@ class User < ApplicationRecord
   #class_name: 'Relationshipで参照するクラスを指定している
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many :followers, through: :reverses_of_relationship, source: :user
+  
+  #お気に入り機能
+  has_many :favorites
+  has_many :favoritings, through: :favorites, source: :micropost
+  has_many :reverses_of_favorite, class_name: 'Favorite', foreign_key: 'user_id'
+  has_many :favoriters, through: :reverses_of_favorite, source: :user
+  
 
 
   #自分自身か検証
@@ -39,4 +46,24 @@ class User < ApplicationRecord
     self.followings.include?(other_user)
   end
   
+  def feed_microposts
+    Micropost.where(user_id: self.following_ids + [self.id])
+  end
+  
+  #お気に入り
+  def favorite(other_micropost)
+    self.favorites.find_or_create_by(micropost_id: other_micropost.id)
+  end
+  
+  #お気に入り削除
+  def unfavorite(other_micropost)
+    favorite = self.favorites.find_by(micropost_id: other_micropost.id)
+    favorite.destroy if favorite
+  end
+ 
+  #お気に入り済か確認
+  def favoriting?(other_micropost)
+    self.favoritings.include?(other_micropost)
+  end
+
 end
