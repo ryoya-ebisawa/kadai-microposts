@@ -1,0 +1,7 @@
+<% if logged_in? %>
+  <div class="row">
+    <div>
+      <%= render 'microposts/microposts', microposts: @likes %>
+    </div>
+  </div>
+<% end %>

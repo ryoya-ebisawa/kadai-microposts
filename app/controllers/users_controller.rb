@@ -22,7 +22,7 @@ class UsersController < ApplicationController
       flash[:success] = 'ユーザを登録しました'
       redirect_to @user
     else
-      flash.now[:denger] = 'ユーザの登録に失敗しました'
+      flash.now[:danger] = 'ユーザの登録に失敗しました'
       render :new
     end
   end
@@ -52,7 +52,8 @@ class UsersController < ApplicationController
   end
   
   def likes
-
+    @user = User.find(params[:id])
+    @likes = @user.favoritings.page(params[:page])
   end
   
   private
