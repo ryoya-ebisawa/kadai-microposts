@@ -21,10 +21,6 @@ class User < ApplicationRecord
   #お気に入り機能
   has_many :favorites
   has_many :favoritings, through: :favorites, source: :micropost
-  has_many :reverses_of_favorite, class_name: 'Favorite', foreign_key: 'user_id'
-  has_many :favoriters, through: :reverses_of_favorite, source: :user
-  
-
 
   #自分自身か検証
   #create = build + save

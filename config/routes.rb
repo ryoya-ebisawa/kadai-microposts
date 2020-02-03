@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     member do
       get :followings
       get :followers
-      get :favoritings
+      #get :favoritings
       get :likes
     end
     #collection do
@@ -19,9 +19,9 @@ Rails.application.routes.draw do
   end
 
   resources :microposts, only: [:create, :destroy] do
-    member do
-      get :favoriters
-    end
+    #member do
+    #  get :favoriters
+    #end
   end
   
   #フォロー、アンフォロー
